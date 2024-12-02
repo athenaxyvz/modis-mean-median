@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Modus, Median, Rata-rata, Dll</h1>
+
+    <label for="inputArray">Masukkan angka (pisahkan dengan koma):</label>
+    <input type="text" id="inputArray" placeholder="Contoh: 100,200,100,300,200,400">
+    <button onclick="hitung()">Hitung</button>
+
+    <h2>Hasil:</h2>
+    <p id="hasil"></p>
+
+<script>
+
+    function hitung() {
+        // Ambil input dan buat array dari angka yang dimasukkan
+        const input = document.getElementById("inputArray").value;
+        const angkaArray = input.split(",").map(Number);
+        
+        
+        // Mengurutkan array dari kecil ke besar
+        angkaArray.sort((a, b) => a - b);
+        
+
+        //RATA-RATA
+        // Menghitung total nilai dan rata-rata
+        let total = 0;
+        for (let i = 0; i < angkaArray.length; i++) {
+            total += angkaArray[i];
+        }
+        let rataRata = total / angkaArray.length;
+
+
+        //MEDIAN
+        // Menghitung Median dan posisi median
+        const tengah = Math.floor(angkaArray.length / 2);
+        let median;
+        let posisiMedian = (angkaArray.length + 1) / 2;  // Posisi median
+        
+        if (angkaArray.length % 2 === 0) {
+            median = (angkaArray[tengah - 1] + angkaArray[tengah]) / 2;
+        } else {
+            median = angkaArray[tengah];
+        }
+
+
+        //MODUS
+        // Menghitung Modus
+        const obj = {};
+        let maxFrequency = 0;
+        let Modus = [];
+
+        // Hitung frekuensi setiap angka
+        angkaArray.forEach(num => {
+            obj[num] = (obj[num] || 0) + 1;
+            if (obj[num] > maxFrequency) {
+                maxFrequency = obj[num];
+            }
+        });
+
+        // Cari angka yang frekuensinya sama dengan maxFrequency
+        for (let key in obj) {
+            if (obj[key] === maxFrequency && maxFrequency > 1) {
+                Modus.push(Number(key));
+            }
+        }
+
+
+         // Mendapatkan nilai terbesar dan terkecil
+         const nilaiTerbesar = Math.max(...angkaArray);
+         const nilaiTerkecil = Math.min(...angkaArray);
+
+
+
+        // Menampilkan hasil
+        document.getElementById("hasil").innerHTML = `
+            Data (diurutkan): ${angkaArray.join(", ")} <br>
+            Panjang Data: ${angkaArray.length} <br>
+            Total: ${total} <br>
+            Nilai Terbesar: ${nilaiTerbesar} <br>
+            Nilai Terkecil: ${nilaiTerkecil} <br>
+            Rata-rata: ${rataRata.toFixed(2)} <br>
+            Posisi Median: ${posisiMedian} <br>
+            Median: ${median} <br>
+            Modus: ${Modus.length ? Modus.join(", ") : "Tidak ada modus"} (frekuensi: ${maxFrequency})
+        `;
+    }
+
+</script>
+</body>
+</html>
+
+
